@@ -7,7 +7,7 @@ It really shines with how simple it is to make a 2D game using the built-in Spri
 Current version 0.91
 
 Dependencies:
-FreeImage library
+FreeImage
 Glew
 GLM
 GLFW
