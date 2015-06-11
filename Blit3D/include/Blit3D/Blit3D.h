@@ -146,7 +146,7 @@ private:
 	
 public:	
 
-	Blit3D(Blit3DWindowModel windowMode, int width, int height);
+	Blit3D(Blit3DWindowModel windowMode, int width = 1920, int height = 1080);
 
 	//for Josh Cooper...I swear, no one else needs this ;)
 	Blit3D(); 
