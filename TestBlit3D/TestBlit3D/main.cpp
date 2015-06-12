@@ -365,7 +365,7 @@ void DoJoystick(void)
 
 int main(int argc, char *argv[])
 {
-	blit3D = new Blit3D(Blit3DWindowModel::BORDERLESSFULLSCREEN_1080P);
+	blit3D = new Blit3D(Blit3DWindowModel::DECORATEDWINDOW_1080P, "Testing Blit3D", 800, 450);
 
 	//set our callback funcs
 	blit3D->SetInit(Init);

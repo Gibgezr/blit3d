@@ -1,5 +1,7 @@
 /* Blit3D cross-platform game graphics library, written by Darren Reid
 
+version 0.95 - now on Github. Added Blit3DWindowModel::DECORATEDWINDOW_1080P for single-screen debugging; provides a floating window
+	that uses graphics scaled from 1080p. Added windowName string to constructor.
 version 0.9 - added #define GLEW_STATIC for new build methodology, sprite angles are now in radians (because GLM update required it),
 	now link only to opengl32.lib and Blit3D.lib in your Blit3D programs, and only require one dll (FreeImage, as it is not designed 
 	for proper static builds). Fixed "warning C4316: 'Sprite' : object allocated on the heap may not be aligned 16" that was caused
@@ -97,7 +99,7 @@ namespace B3D
 
 enum class Blit3DThreadModel { SINGLETHREADED = 1, SIMPLEMULTITHREADED, MULTITHREADED };
 
-enum class Blit3DWindowModel { DECORATEDWINDOW = 1, FULLSCREEN, BORDERLESSFULLSCREEN, BORDERLESSFULLSCREEN_1080P};
+enum class Blit3DWindowModel { DECORATEDWINDOW = 1, FULLSCREEN, BORDERLESSFULLSCREEN, BORDERLESSFULLSCREEN_1080P, DECORATEDWINDOW_1080P };
 
 enum class Blit3DRenderMode { BLIT2D = 0, BLIT3D };
 
@@ -143,10 +145,11 @@ private:
 
 	std::mutex spriteMutex;
 	std::unordered_set<Sprite *> spriteSet;
-	
+	std::string windowName;
+
 public:	
 
-	Blit3D(Blit3DWindowModel windowMode, int width = 1920, int height = 1080);
+	Blit3D(Blit3DWindowModel windowMode, const char* window_name, int width = 1920, int height = 1080);
 
 	//for Josh Cooper...I swear, no one else needs this ;)
 	Blit3D(); 

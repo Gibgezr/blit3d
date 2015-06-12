@@ -79,7 +79,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	if(Blit3DScrollwheel) Blit3DScrollwheel(xoffset, yoffset);
 }
 
-Blit3D::Blit3D(Blit3DWindowModel windowMode, int width, int height)
+Blit3D::Blit3D(Blit3DWindowModel windowMode, const char* window_name, int width, int height)
 {
 	sManager = NULL;
 	tManager = NULL;	
@@ -102,6 +102,7 @@ Blit3D::Blit3D(Blit3DWindowModel windowMode, int width, int height)
 	winMode= windowMode;
 	screenWidth = (float)width;
 	screenHeight = (float)height;
+	windowName = window_name;
 
 	nearplane = 0.1f;
 	farplane = 10000.f;
@@ -130,9 +131,10 @@ Blit3D::Blit3D()
 	Blit3DScrollwheel = NULL;
 	DoJoystick = NULL;
 
-	winMode = Blit3DWindowModel::BORDERLESSFULLSCREEN;
+	winMode = Blit3DWindowModel::BORDERLESSFULLSCREEN_1080P;
 	screenWidth = 1920.f;
 	screenHeight = 1080.f;
+	windowName = "Blit3D";
 
 	nearplane = 0.1f;
 	farplane = 10000.f;
@@ -289,12 +291,12 @@ int Blit3D::Run(Blit3DThreadModel threadType)
 	switch(winMode)
 	{
 	case Blit3DWindowModel::FULLSCREEN:
-		window = glfwCreateWindow(mode->width, mode->height, "Blit3D", glfwGetPrimaryMonitor(), NULL);
+		window = glfwCreateWindow(mode->width, mode->height, windowName.c_str(), glfwGetPrimaryMonitor(), NULL);
 		trueScreenHeight = screenHeight = static_cast<float>(mode->height);
 		trueScreenWidth = screenWidth = static_cast<float>(mode->width);
 		break;
 	case Blit3DWindowModel::DECORATEDWINDOW:
-		window = glfwCreateWindow((int)screenWidth, (int)screenHeight, "Blit3D", NULL, NULL);
+		window = glfwCreateWindow((int)screenWidth, (int)screenHeight, windowName.c_str(), NULL, NULL);
 		break;
 	case Blit3DWindowModel::BORDERLESSFULLSCREEN:	
 		glfwWindowHint(GLFW_DECORATED, false);
@@ -304,7 +306,7 @@ int Blit3D::Run(Blit3DThreadModel threadType)
 		glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 		glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-		window = glfwCreateWindow(mode->width, mode->height, "Blit3D", NULL, NULL);
+		window = glfwCreateWindow(mode->width, mode->height, windowName.c_str(), NULL, NULL);
 		trueScreenHeight = screenHeight = static_cast<float>(mode->height);
 		trueScreenWidth = screenWidth = static_cast<float>(mode->width);
 		break;
@@ -316,9 +318,16 @@ int Blit3D::Run(Blit3DThreadModel threadType)
 		glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 		glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-		window = glfwCreateWindow(mode->width, mode->height, "Blit3D", NULL, NULL);
+		window = glfwCreateWindow(mode->width, mode->height, windowName.c_str(), NULL, NULL);
 		trueScreenHeight = static_cast<float>(mode->height);
 		trueScreenWidth = static_cast<float>(mode->width);
+		screenHeight = 1080.f; //we lie!
+		screenWidth = 1920.f;
+		break;
+	case Blit3DWindowModel::DECORATEDWINDOW_1080P:
+		window = glfwCreateWindow((int)screenWidth, (int)screenHeight, windowName.c_str(), NULL, NULL);
+		trueScreenHeight = (int)screenHeight;
+		trueScreenWidth = (int)screenWidth;
 		screenHeight = 1080.f; //we lie!
 		screenWidth = 1920.f;
 		break;
